@@ -11,6 +11,8 @@
 
         public const byte MedicineTypeNameMinLenght = 0;
         public const byte MedicineTypeNameMaxLenght = 250;
+        public const byte MedicineTypeMinCount = 1;
+        public const byte MedicineTypeMaxCount = 5;
 
         public const byte PharmacyNameMinlenght = 0;
         public const int PharmacyNameMaxLebnght = 1000;

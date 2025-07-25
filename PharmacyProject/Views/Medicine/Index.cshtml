@@ -1,0 +1,29 @@
+﻿@model IEnumerable<PharmacyProject.Data.DataModels.Medicine>
+
+<h2>All Medicine</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>MedicineName</tr>
+        <tr>MedicineType</tr>
+        <tr>ExperationDate</tr>
+        <tr>Price</tr>
+        <tr>Description</tr>
+    </thead>
+    <tbody>
+        @foreach (var medicine in Model)
+        {
+            <tr>
+                <td>@medicine.MedicineName</td>
+                <td>@medicine.MedicineType</td>
+                <td>@medicine.ExperationDate.ToString("yyyy-MM-dd")</td>
+                <td>@medicine.Price $</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@medicine.Id" class="btn btn-info">Details</a>
+                    <a asp-action="Asign" asp-route-medcineId="@medicine.Id" class="btn btn-primary">Asign</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<a asp-action="Create" class="btn btn-primary">Add new medicine</a>
