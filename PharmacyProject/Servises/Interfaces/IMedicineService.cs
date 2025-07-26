@@ -13,6 +13,6 @@ namespace PharmacyProject.Servises.Interfaces
 
         public Task<MedicineDetailsViewModel> GetDetails(int id);
 
-
+        public Task<AddMedicineToPharmacyViewModel> GetAddMedcineToPharmacyViewModelAsync(int id);
     }
 }

@@ -72,7 +72,31 @@ namespace PharmacyProject.Servises
             };
         }
 
+        public async Task<AddMedicineToPharmacyViewModel> GetAddMedcineToPharmacyViewModelAsync(int id)
+        {
+            var medicine = await _context.Medicines.FindAsync(id);
 
+            if(medicine == null)
+            {
+                return null;
+            }
+
+            var pharmacies = await _context.Pharmacies.ToListAsync();
+
+            AddMedicineToPharmacyViewModel viewModel = new AddMedicineToPharmacyViewModel
+            {
+                MedicineId = medicine.Id,
+                Name = medicine.MedicineName,
+                Pharmacies = pharmacies.Select(p => new PharmacyCheckBox
+                {
+                    Id = p.Id,
+                    Name = p.Name,
+                    IsSelected = false
+                }).ToList()
+            };
+
+            return viewModel;
+        }
 
         private string GetMedicineTypeName(int id)
         {
