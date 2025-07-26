@@ -8,5 +8,7 @@ namespace PharmacyProject.Servises.Interfaces
         public Task<IEnumerable<Medicine>> GetIndex();
 
         public Task<MedicineViewModel> GetAddModelAsynk();
+
+        public Task AddMedicineAsync(MedicineViewModel viewModel);
     }
 }

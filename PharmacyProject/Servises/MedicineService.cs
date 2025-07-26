@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using PharmacyProject.Data;
 using PharmacyProject.Data.DataModels;
@@ -38,6 +38,20 @@ namespace PharmacyProject.Servises
             return model;
         }
 
+        public async Task AddMedicineAsync(MedicineViewModel viewModel)
+        {
+            var medicine = new Medicine
+            {
+                MedicineName = viewModel.Name,
+                ExperationDate = viewModel.ExperationDate,
+                Price = viewModel.Price,
+                Description = viewModel.Description,
+                MedicineTypeId = viewModel.Type,
+                ImageURL = viewModel.ImageURL
+            };
 
+            _context.Medicines.Add(medicine);
+            _context.SaveChanges();
+        }
     }
 }

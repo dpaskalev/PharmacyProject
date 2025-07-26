@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using PharmacyProject.Data;
+using PharmacyProject.Data.DataModels;
 using PharmacyProject.Servises;
 using PharmacyProject.Servises.Interfaces;
 using PharmacyProject.VewModels;
@@ -33,9 +34,17 @@ namespace PharmacyProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult Create(MedicineViewModel viewModel)
+        public async Task<IActionResult> Create(MedicineViewModel viewModel)
         {
-            throw new NotImplementedException();
+            if(ModelState.IsValid == false)
+            {
+                var model = await _medicineService.GetAddModelAsynk();
+                return View(model);
+            }
+
+            await _medicineService.AddMedicineAsync(viewModel);
+
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
