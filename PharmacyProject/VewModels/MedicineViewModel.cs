@@ -26,6 +26,6 @@ namespace PharmacyProject.VewModels
         [Range(ValidationConstants.MedicineTypeMinCount, ValidationConstants.MedicineTypeMaxCount)]
         public int Type { get; set; }
 
-        public IEnumerable<MedicineType>? MedicineTypes { get; set; }
+        public IEnumerable<TypeVewModel>? MedicineTypes { get; set; }
     }
 }

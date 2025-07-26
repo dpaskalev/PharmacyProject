@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PharmacyProject.Data;
+using PharmacyProject.Servises;
+using PharmacyProject.Servises.Interfaces;
 using PharmacyProject.VewModels;
 using System;
 
@@ -7,24 +10,26 @@ namespace PharmacyProject.Controllers
 {
     public class MedicineController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly IMedicineService _medicineService;
 
-        public MedicineController(ApplicationDbContext context)
+        public MedicineController(IMedicineService medicineService)
         {
-            _context = context;
+            _medicineService = medicineService;
         }
 
         [HttpGet]
-        public IActionResult Index()
+        [AllowAnonymous]
+        public async Task<IActionResult> Index()
         {
-            var medicines = _context.Medicines.ToList();
-            return View(medicines);
+            var model = await _medicineService.GetIndex();
+            return View(model);
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            throw new NotImplementedException();
+            var model = await _medicineService.GetAddModelAsynk();
+            return View(model);
         }
 
         [HttpPost]

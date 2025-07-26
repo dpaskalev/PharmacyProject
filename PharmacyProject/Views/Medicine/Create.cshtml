@@ -1,0 +1,41 @@
+﻿@using PharmacyProject.VewModels
+@model MedicineViewModel
+<h2>Add new medicine</h2>
+
+<form asp-action="Create" method="post">
+    <div>
+        <label for="Name">Medicine name</label>
+        <input asp-for="Name" class="text-danger" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div>
+        <label for="ExperationDate">Experation date</label>
+        <input asp-for="ExperationDate" type="month" class="form-control" value="@DateTime.Now.ToString("yyyy-MM")" />
+        <span asp-validation-for="ExperationDate" class="text-danger"></span>
+    </div>
+    <div>
+        <label for="Price">Price</label>
+        <input asp-for="Price" class="form-control" />
+        <span asp-validation-for="Price" class="text-danger"></span>
+    </div>
+    <div>
+        <label for="Description">Description</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+    </div>
+    <div>
+        <label for="ImageURL">Image URL</label>
+        <input asp-for="ImageURL" class="form-control" placeholder="Enter Image URL" />
+        <span asp-validation-for="ImageURL" class="text-danger"></span>
+    </div>
+    <div>
+        <label for="Type">Select medicibe type</label>
+        <select asp-for="Type" class="form-control" aria-required="true" asp-items="@(new SelectList(Model.MedicineTypes, "Id", "Name"))">
+            <option value="">Select medicine type...</option>
+        </select>
+        <span asp-validation-for="Type" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-2">Create medicine</button>
+</form>
+
+<a asp-action="Index">Back to all medicine</a>

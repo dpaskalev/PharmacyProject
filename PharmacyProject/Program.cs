@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PharmacyProject.Data;
 using PharmacyProject.Data.DataModels;
+using PharmacyProject.Servises;
+using PharmacyProject.Servises.Interfaces;
 
 namespace PharmacyProject
 {
@@ -19,6 +21,9 @@ namespace PharmacyProject
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
+            builder.Services.AddScoped<IMedicineService, MedicineService>();
+
             builder.Services.AddControllersWithViews();
 
             var app = builder.Build();
