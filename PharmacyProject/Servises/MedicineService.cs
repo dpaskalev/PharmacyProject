@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using PharmacyProject.Data;
 using PharmacyProject.Data.DataModels;
 using PharmacyProject.Servises.Interfaces;
@@ -52,6 +55,42 @@ namespace PharmacyProject.Servises
 
             _context.Medicines.Add(medicine);
             _context.SaveChanges();
+        }
+
+        public async Task<MedicineDetailsViewModel> GetDetails(int id)
+        {
+            var medicine = await _context.Medicines.FindAsync(id);
+
+            return new MedicineDetailsViewModel
+            {
+                Name = medicine.MedicineName,
+                ExperationDate = medicine.ExperationDate,
+                Price = medicine.Price,
+                Description = medicine.Description,
+                ImageURL = medicine.ImageURL,
+                TypeName = GetMedicineTypeName(medicine.MedicineTypeId)
+            };
+        }
+
+
+
+        private string GetMedicineTypeName(int id)
+        {
+            switch (id)
+            {
+                case 1:
+                    return "Pill";
+                case 2:
+                    return "Syringe";
+                case 3:
+                    return "Syrup";
+                case 4:
+                    return "Powder";
+                case 5:
+                    return "Liquid";
+                default:
+                    return "Error";
+            }
         }
     }
 }

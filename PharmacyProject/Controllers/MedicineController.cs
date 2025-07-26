@@ -50,7 +50,9 @@ namespace PharmacyProject.Controllers
         [HttpGet]
         public IActionResult Details(int id)
         {
-            throw new NotImplementedException();
+            var medicine = _medicineService.GetDetails(id);
+
+            return View(medicine);
         }
 
         [HttpGet]
