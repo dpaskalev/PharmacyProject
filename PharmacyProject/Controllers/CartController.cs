@@ -29,6 +29,14 @@ namespace PharmacyProject.Controllers
             return View(model);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Add(int medicineId)
+        {
+            await _cartService.AddAsync(medicineId, GetUserId());
 
+            return RedirectToAction("Index", "Medicine");
+        }
+
+        
     }
 }

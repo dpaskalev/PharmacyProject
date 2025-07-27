@@ -39,7 +39,25 @@ namespace PharmacyProject.Servises
             return model;
         }
 
+        public async Task AddAsync(int medicineId, string userId)
+        {
+            var userMedicine = await _context.UsersMedicines
+                .FirstOrDefaultAsync(um => um.UserId == userId && um.MedicineId == medicineId);
 
+            if(userMedicine == null)
+            {
+                userMedicine = new UserMedicine
+                {
+                    UserId = userId,
+                    MedicineId = medicineId
+                };
+
+                await _context.UsersMedicines.AddAsync(userMedicine);
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        
 
         private string GetMedicineTypeName(int id)
         {
