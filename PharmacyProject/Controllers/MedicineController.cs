@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PharmacyProject.Data;
 using PharmacyProject.Data.DataModels;
@@ -9,11 +10,12 @@ using System;
 
 namespace PharmacyProject.Controllers
 {
-    public class MedicineController : Controller
+    public class MedicineController : BaseController
     {
         private readonly IMedicineService _medicineService;
 
-        public MedicineController(IMedicineService medicineService)
+        public MedicineController(UserManager<IdentityUser> userManager, IMedicineService medicineService)
+            :base(userManager)
         {
             _medicineService = medicineService;
         }

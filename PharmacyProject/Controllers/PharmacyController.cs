@@ -18,7 +18,6 @@ namespace PharmacyProject.Controllers
             _pharmacyService = pharmacyService;
         }
 
-
         [HttpGet]
         public async Task<IActionResult> Index()
         {
