@@ -26,5 +26,13 @@ namespace PharmacyProject.Controllers
 
             return View(modelsCollection);
         }
+
+        [HttpGet]
+        public IActionResult Create()
+        {
+            var model = _pharmacyService.GetPharmacyViewModel();
+
+            return View(model);
+        }
     }
 }

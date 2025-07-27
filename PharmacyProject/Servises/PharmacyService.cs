@@ -33,5 +33,12 @@ namespace PharmacyProject.Servises
 
             return pharmacyViewModels;
         }
+
+        public PharmacyViewModel GetPharmacyViewModel()
+        {
+            var model = new PharmacyViewModel();
+
+            return model;
+        }
     }
 }

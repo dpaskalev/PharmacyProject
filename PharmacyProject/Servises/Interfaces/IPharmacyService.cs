@@ -6,5 +6,7 @@ namespace PharmacyProject.Servises.Interfaces
     public interface IPharmacyService
     {
         public Task<IEnumerable<PharmacyViewModel>> GetPharmaciesAsynk();
+
+        public PharmacyViewModel GetPharmacyViewModel();
     }
 }
