@@ -37,6 +37,12 @@ namespace PharmacyProject.Controllers
             return RedirectToAction("Index", "Medicine");
         }
 
-        
+        [HttpPost]
+        public async Task<IActionResult> Remove(int medicineId)
+        {
+            await _cartService.RemoveAsync(medicineId, GetUserId());
+
+            return RedirectToAction("Index", "Medicine");
+        }
     }
 }

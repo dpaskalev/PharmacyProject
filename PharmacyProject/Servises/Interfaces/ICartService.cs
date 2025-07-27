@@ -8,5 +8,7 @@ namespace PharmacyProject.Servises.Interfaces
         public Task<IEnumerable<CartViewModel>> GetIndexAsync(string userId);
 
         public Task AddAsync(int medicineId, string userId);
+
+        public Task RemoveAsync(int medicineId, string userId);
     }
 }

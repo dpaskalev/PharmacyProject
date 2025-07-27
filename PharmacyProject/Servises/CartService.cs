@@ -57,7 +57,17 @@ namespace PharmacyProject.Servises
             }
         }
 
-        
+        public async Task RemoveAsync(int medicineId, string userId)
+        {
+            var userMedicine = await _context.UsersMedicines
+                .FirstOrDefaultAsync(um => um.UserId == userId && um.MedicineId == medicineId);
+
+            if(userMedicine != null)
+            {
+                userMedicine.Medicine.IsDeleted = true;
+                await _context.SaveChangesAsync();
+            }
+        }
 
         private string GetMedicineTypeName(int id)
         {
