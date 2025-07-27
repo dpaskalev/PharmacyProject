@@ -23,6 +23,7 @@ namespace PharmacyProject
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddScoped<IMedicineService, MedicineService>();
+            builder.Services.AddScoped<IPharmacyService, PharmacyService>();
 
             builder.Services.AddControllersWithViews();
 
