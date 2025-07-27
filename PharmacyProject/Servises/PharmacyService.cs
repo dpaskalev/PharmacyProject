@@ -40,5 +40,43 @@ namespace PharmacyProject.Servises
 
             return model;
         }
+
+        public async Task AddPharamcyToDatabaseAsync(PharmacyViewModel model)
+        {
+            var pharmacy = new Pharmacy
+            {
+                Name = model.Name,
+                Loctaion = model.Location
+            };
+
+            await _context.Pharmacies.AddAsync(pharmacy);
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<PharmacyDetailsViewModel> GetDetailsAsync(int id)
+        {
+            var pharmacy = await _context.Pharmacies
+                .Include(p => p.PharmaciesMedicines)
+                .ThenInclude(pm => pm.Medicine)
+                .FirstOrDefaultAsync(p => p.Id == id);
+
+            if(pharmacy == null)
+            {
+                return null;
+            }
+
+            var pharmacyDetailsViewModel = new PharmacyDetailsViewModel
+            {
+                Id = pharmacy.Id,
+                Name = pharmacy.Name,
+                Location = pharmacy.Loctaion,
+                Medicines = pharmacy.PharmaciesMedicines.Select(pm => new PharmacyMedicineViewModel
+                {
+                    Name = pm.Medicine.MedicineName
+                }).ToList()
+            };
+
+            return pharmacyDetailsViewModel;
+        }
     }
 }

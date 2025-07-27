@@ -1,0 +1,25 @@
+﻿@model PharmacyProject.VewModels.PharmacyDetailsViewModel
+
+<h2>@Model.Name</h2>
+
+<p><strong>Location:</strong> @Model.Location</p>
+
+<h3>Has medicines: </h3>
+
+@if (Model.Medicines.Any())
+{
+    <ul class="list-group">
+        @foreach(var medicine in Model.Medicines)
+        {
+            <li class="list-group-item">
+                <strong>@medicine.Name</strong> <br />
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No medicine in this pharmacy</p>
+}
+
+<a asp-action="Index" class="btn btn-secondary mt-3">Back to all pharmacies</a>

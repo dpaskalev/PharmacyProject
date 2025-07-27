@@ -34,5 +34,31 @@ namespace PharmacyProject.Controllers
 
             return View(model);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(PharmacyViewModel model)
+        {
+            if(ModelState.IsValid == false)
+            {
+                return View(model);
+            }
+
+            await _pharmacyService.AddPharamcyToDatabaseAsync(model);
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var pharmacy = await _pharmacyService.GetDetailsAsync(id);
+
+            if(pharmacy == null)
+            {
+                RedirectToAction("Index");
+            }
+
+            return View(pharmacy);
+        }
     }
 }
