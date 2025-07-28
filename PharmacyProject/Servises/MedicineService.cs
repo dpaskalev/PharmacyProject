@@ -19,9 +19,25 @@ namespace PharmacyProject.Servises
             _context = context;
         }
 
-        public async Task<IEnumerable<Medicine>> GetIndex()
+        public async Task<IEnumerable<MedicineIndexViewModel>> GetIndex(string userId)
         {
-            return await _context.Medicines.ToListAsync();
+            var Medicines = await _context.Medicines
+                .Where(m => m.IsDeleted == false)
+                .Select(m => new MedicineIndexViewModel
+                {
+                    Id = m.Id,
+                    Name = m.MedicineName,
+                    ExpeationDate = m.ExperationDate,
+                    Price = m.Price,
+                    Description = m.Description,
+                    TypeName = m.MedicineType.MedicineTypeName,
+                    ImageURL = m.ImageURL,
+                    IsPublisher = m.UserId == userId,
+                    HasBought = userId != null && _context.UsersMedicines.Any(um => um.MedicineId == m.Id && um.UserId == userId)
+                })
+                .ToListAsync();
+
+            return Medicines;
         }
 
         public async Task<MedicineViewModel> GetAddModelAsynk()
@@ -68,6 +84,7 @@ namespace PharmacyProject.Servises
                 Price = medicine.Price,
                 Description = medicine.Description,
                 ImageURL = medicine.ImageURL,
+                //TypeName = medicine.MedicineType.MedicineTypeName
                 TypeName = GetMedicineTypeName(medicine.MedicineTypeId)
             };
         }

@@ -1,6 +1,7 @@
 ﻿using PharmacyProject.Common;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Identity;
 
 namespace PharmacyProject.Data.DataModels
 {
@@ -29,6 +30,12 @@ namespace PharmacyProject.Data.DataModels
 
         [ForeignKey(nameof(MedicineTypeId))]
         public MedicineType MedicineType { get; set; } = null!;
+
+        [Required]
+        public string UserId { get; set; } = null!;
+
+        [ForeignKey(nameof(UserId))]
+        public IdentityUser User { get; set; } = null!;
 
         public string? ImageURL { get; set; }
 

@@ -59,6 +59,7 @@ namespace PharmacyProject.Data
                     Price = 100,
                     Description = "Caution",
                     MedicineTypeId = 1,
+                    UserId = "df1c3a0f-1234-4cde-bb55-d5f15a6aabcd",
                     IsDeleted = false
                 },
 
@@ -70,6 +71,7 @@ namespace PharmacyProject.Data
                     Price = 200,
                     Description = "Caution",
                     MedicineTypeId = 2,
+                    UserId = "df1c3a0f-1234-4cde-bb55-d5f15a6aabcd",
                     IsDeleted = false
                 },
 
@@ -81,6 +83,7 @@ namespace PharmacyProject.Data
                     Price = 100,
                     Description = "Caution",
                     MedicineTypeId = 3,
+                    UserId = "df1c3a0f-1234-4cde-bb55-d5f15a6aabcd",
                     IsDeleted = false
                 }
             );
@@ -90,21 +93,27 @@ namespace PharmacyProject.Data
                 {
                     Id = 1,
                     Name = "Pharmacy_1",
-                    Loctaion = "Suhata_Reka"
+                    Loctaion = "Suhata_Reka",
+                    UserId = "df1c3a0f-1234-4cde-bb55-d5f15a6aabcd",
+                    IsDeleted = false
                 },
 
                 new Pharmacy
                 {
                     Id = 2,
                     Name = "Pharmacy_2",
-                    Loctaion = "Suhata_Reka"
+                    Loctaion = "Suhata_Reka",
+                    UserId = "df1c3a0f-1234-4cde-bb55-d5f15a6aabcd",
+                    IsDeleted = false
                 },
 
                 new Pharmacy
                 {
                     Id = 3,
                     Name = "Pharmacy_3",
-                    Loctaion = "Suhata_Reka"
+                    Loctaion = "Suhata_Reka",
+                    UserId = "df1c3a0f-1234-4cde-bb55-d5f15a6aabcd",
+                    IsDeleted = false
                 }
             );
         }

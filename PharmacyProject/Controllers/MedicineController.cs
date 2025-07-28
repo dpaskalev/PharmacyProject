@@ -10,6 +10,7 @@ using System;
 
 namespace PharmacyProject.Controllers
 {
+    [Authorize]
     public class MedicineController : BaseController
     {
         private readonly IMedicineService _medicineService;
@@ -24,7 +25,7 @@ namespace PharmacyProject.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
-            var model = await _medicineService.GetIndex();
+            var model = await _medicineService.GetIndex(GetUserId());
             return View(model);
         }
 

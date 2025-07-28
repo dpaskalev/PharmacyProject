@@ -5,7 +5,7 @@ namespace PharmacyProject.Servises.Interfaces
 {
     public interface IMedicineService
     {
-        public Task<IEnumerable<Medicine>> GetIndex();
+        public Task<IEnumerable<MedicineIndexViewModel>> GetIndex(string userId);
 
         public Task<MedicineViewModel> GetAddModelAsynk();
 

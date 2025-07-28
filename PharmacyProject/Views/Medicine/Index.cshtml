@@ -1,4 +1,4 @@
-﻿@model IEnumerable<PharmacyProject.Data.DataModels.Medicine>
+﻿@model IEnumerable<PharmacyProject.VewModels.MedicineIndexViewModel>
 
 <h2>All Medicine</h2>
 
@@ -14,13 +14,34 @@
         @foreach (var medicine in Model)
         {
             <tr>
-                <td>@medicine.MedicineName</td>
-                <td>@medicine.MedicineType</td>
-                <td>@medicine.ExperationDate.ToString("yyyy-MM-dd")</td>
+                <td>@medicine.Name</td>
+                <td>@medicine.TypeName</td>
+                <td>@medicine.ExpeationDate.ToString("yyyy-MM-dd")</td>
                 <td>@medicine.Price $</td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@medicine.Id" class="btn btn-info">Details</a>
-                    <a asp-action="Assign" asp-route-medcineId="@medicine.Id" class="btn btn-primary">Assign</a>
+
+
+                    @if (User?.Identity?.Name == "admin@gmail.com" || User?.Identity?.IsAuthenticated == true && !medicine.IsPublisher && !medicine.HasBought)
+                    {
+                        <form asp-controller="Cart" asp-action="Add" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@medicine.Id" />
+                            <button type="submit" class="btn btn-success w-100">Buy</button>
+                        </form>
+                        <a asp-action="Details" asp-route-id="@medicine.Id" class="btn btn-info">Details</a>
+                        <a asp-action="Assign" asp-route-medcineId="@medicine.Id" class="btn btn-primary">Assign</a>
+                    }
+                    else if (User?.Identity?.IsAuthenticated == true && !medicine.IsPublisher && !medicine.HasBought)
+                    {
+                        <form asp-controller="Cart" asp-action="Add" method="post">
+                            <input type="hidden" name="id" value="@medicine.Id" />
+                            <button type="submit" class="btn btn-success w-100">Buy</button>
+                        </form>
+                        <a asp-action="Details" asp-route-id="@medicine.Id" class="btn btn-info">Details</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Details" asp-route-id="@medicine.Id" class="btn btn-info">Details</a>
+                    }
                 </td>
             </tr>
         }
