@@ -1,0 +1,21 @@
+﻿@model PharmacyProject.VewModels.PharmacyDeleteViewModel
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title text-center">@Model.Name</h3>
+                <p class="text-danger mt-3">Are you sure you want to delete @(Model.Name)?</p>
+            </div>
+            <div class="card-footer">
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="Name" />
+                    <input type="hidden" asp-for="PublisherId" />
+                    <button type="submit" class="btn btn-danger">Confirm Delete</button>
+                    <a asp-controller="Medicine" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-warning">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

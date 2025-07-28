@@ -19,16 +19,18 @@ namespace PharmacyProject.Servises
             _context = context;
         }
 
-
-        public async Task<IEnumerable<PharmacyViewModel>> GetPharmaciesAsynk()
+        public async Task<IEnumerable<PharmacyViewModel>> GetPharmaciesAsynk(string userId)
         {
-            var modelsCollection = await _context.Pharmacies.ToListAsync();
+            var modelsCollection = await _context.Pharmacies
+                .Where(p => p.IsDeleted == false)
+                .ToListAsync();
 
             var pharmacyViewModels = modelsCollection.Select(p => new PharmacyViewModel
             {
                 Id = p.Id,
                 Name = p.Name,
-                Location = p.Loctaion
+                Location = p.Loctaion,
+                IsPublisher = p.UserId == userId
             });
 
             return pharmacyViewModels;
@@ -41,12 +43,13 @@ namespace PharmacyProject.Servises
             return model;
         }
 
-        public async Task AddPharamcyToDatabaseAsync(PharmacyViewModel model)
+        public async Task AddPharamcyToDatabaseAsync(PharmacyViewModel model, string userId)
         {
             var pharmacy = new Pharmacy
             {
                 Name = model.Name,
-                Loctaion = model.Location
+                Loctaion = model.Location,
+                UserId = userId
             };
 
             await _context.Pharmacies.AddAsync(pharmacy);
@@ -58,6 +61,7 @@ namespace PharmacyProject.Servises
             var pharmacy = await _context.Pharmacies
                 .Include(p => p.PharmaciesMedicines)
                 .ThenInclude(pm => pm.Medicine)
+                .Where(m => m.IsDeleted == false)
                 .FirstOrDefaultAsync(p => p.Id == id);
 
             if(pharmacy == null)
@@ -72,11 +76,39 @@ namespace PharmacyProject.Servises
                 Location = pharmacy.Loctaion,
                 Medicines = pharmacy.PharmaciesMedicines.Select(pm => new PharmacyMedicineViewModel
                 {
+                    Id = pm.Medicine.Id,
                     Name = pm.Medicine.MedicineName
                 }).ToList()
             };
 
             return pharmacyDetailsViewModel;
+        }
+
+        public async Task<PharmacyDeleteViewModel> GetPharmacyDeleteViewModel(int id)
+        {
+            var model = await _context.Pharmacies
+                .Where(m => m.Id == id)
+                .Select(m => new PharmacyDeleteViewModel
+                {
+                    Id = m.Id,
+                    Name = m.Name,
+                    PublisherId = m.UserId,
+                    PublisherName = m.User.UserName
+                }).FirstOrDefaultAsync();
+
+            return model;
+        }
+
+        public async Task Delete(int id)
+        {
+            var medicine = await _context.Pharmacies
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if (medicine != null)
+            {
+                medicine.IsDeleted = true;
+                await _context.SaveChangesAsync();
+            }
         }
     }
 }

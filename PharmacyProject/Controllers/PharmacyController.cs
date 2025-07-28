@@ -21,7 +21,7 @@ namespace PharmacyProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var modelsCollection = await _pharmacyService.GetPharmaciesAsynk();
+            var modelsCollection = await _pharmacyService.GetPharmaciesAsynk(GetUserId());
 
             return View(modelsCollection);
         }
@@ -42,7 +42,7 @@ namespace PharmacyProject.Controllers
                 return View(model);
             }
 
-            await _pharmacyService.AddPharamcyToDatabaseAsync(model);
+            await _pharmacyService.AddPharamcyToDatabaseAsync(model, GetUserId());
 
             return RedirectToAction("Index");
         }
@@ -58,6 +58,27 @@ namespace PharmacyProject.Controllers
             }
 
             return View(pharmacy);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var model = await _pharmacyService.GetPharmacyDeleteViewModel(id);
+
+            if (model == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(MedicineDeleteViewModel model)
+        {
+            await _pharmacyService.Delete(model.Id);
+
+            return RedirectToAction("Index");
         }
     }
 }

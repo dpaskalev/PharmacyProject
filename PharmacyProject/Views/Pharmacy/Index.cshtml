@@ -13,7 +13,15 @@
                 <div class="card-body">
                     <h5 class="card-title">@pharmacy.Name</h5>
                     <p class="card-text">@pharmacy.Location</p>
-                    <a asp-action="Details" asp-route-id="@pharmacy.Id" class="btn btn-primary">Details</a>
+                    @if (User?.Identity?.Name == "admin@gmail.com" || User?.Identity?.IsAuthenticated == true && pharmacy.IsPublisher)
+                    {
+                        <a asp-action="Details" asp-route-id="@pharmacy.Id" class="btn btn-primary">Details</a>
+                        <a asp-action="Delete" asp-route-id="@pharmacy.Id" class="btn btn-info">Delete</a>
+                    }
+                    else
+                    {
+                        <a asp-action="Details" asp-route-id="@pharmacy.Id" class="btn btn-primary">Details</a>
+                    }
                 </div>
             </div>
         </div>
