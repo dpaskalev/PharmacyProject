@@ -29,11 +29,11 @@ namespace PharmacyProject.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Add(int medicineId)
+        public async Task<IActionResult> Add(int id)
         {
-            await _cartService.AddAsync(medicineId, GetUserId());
+            await _cartService.AddAsync(id, GetUserId());
 
-            return RedirectToAction("Index", "Medicine");
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
@@ -41,7 +41,7 @@ namespace PharmacyProject.Controllers
         {
             await _cartService.RemoveAsync(medicineId, GetUserId());
 
-            return RedirectToAction("Index", "Medicine");
+            return RedirectToAction("Index");
         }
     }
 }

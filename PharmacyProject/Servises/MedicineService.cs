@@ -57,7 +57,7 @@ namespace PharmacyProject.Servises
             return model;
         }
 
-        public async Task AddMedicineAsync(MedicineViewModel viewModel)
+        public async Task AddMedicineAsync(MedicineViewModel viewModel, string userId)
         {
             var medicine = new Medicine
             {
@@ -66,7 +66,8 @@ namespace PharmacyProject.Servises
                 Price = viewModel.Price,
                 Description = viewModel.Description,
                 MedicineTypeId = viewModel.Type,
-                ImageURL = viewModel.ImageURL
+                ImageURL = viewModel.ImageURL,
+                UserId = userId
             };
 
             await _context.Medicines.AddAsync(medicine);
@@ -76,6 +77,11 @@ namespace PharmacyProject.Servises
         public async Task<MedicineDetailsViewModel> GetDetails(int id)
         {
             var medicine = await _context.Medicines.FindAsync(id);
+
+            if(medicine == null)
+            {
+                return null;
+            }
 
             return new MedicineDetailsViewModel
             {

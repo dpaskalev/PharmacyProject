@@ -28,6 +28,12 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Medicine" asp-action="Index">Medicines</a>
                         </li>
+                        @if (User?.Identity?.IsAuthenticated ?? false)  // Only show if user is logged in
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-controller="Cart" asp-action="Index">Cart</a>
+                            </li>
+                        }
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

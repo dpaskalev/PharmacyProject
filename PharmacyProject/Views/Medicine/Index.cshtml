@@ -21,7 +21,7 @@
                 <td>
 
 
-                    @if (User?.Identity?.Name == "admin@gmail.com" || User?.Identity?.IsAuthenticated == true && !medicine.IsPublisher && !medicine.HasBought)
+                    @if (User?.Identity?.Name == "admin@gmail.com" || User?.Identity?.IsAuthenticated == true && medicine.IsPublisher)
                     {
                         <form asp-controller="Cart" asp-action="Add" method="post" class="d-inline">
                             <input type="hidden" name="id" value="@medicine.Id" />

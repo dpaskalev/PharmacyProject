@@ -44,7 +44,7 @@ namespace PharmacyProject.Controllers
                 return View(model);
             }
 
-            await _medicineService.AddMedicineAsync(viewModel);
+            await _medicineService.AddMedicineAsync(viewModel, GetUserId());
 
             return RedirectToAction("Index");
         }
@@ -53,6 +53,11 @@ namespace PharmacyProject.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var medicine = await _medicineService.GetDetails(id);
+
+            if(medicine == null)
+            {
+                return RedirectToAction("Index");
+            }
 
             return View(medicine);
         }

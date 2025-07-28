@@ -23,19 +23,18 @@ namespace PharmacyProject.Servises
         public async Task<IEnumerable<CartViewModel>> GetIndexAsync(string userId)
         {
             var model = await _context.UsersMedicines
-                .Where(um => um.UserId == userId)
-                .Include(um => um.Medicine)
+                .Where(um => userId == um.UserId)
+                .Where(um => um.Medicine.IsDeleted == false)
                 .Select(um => new CartViewModel
                 {
                     MedicineId = um.MedicineId,
                     Name = um.Medicine.MedicineName,
                     ExperationDate = um.Medicine.ExperationDate,
                     Description = um.Medicine.Description,
-                    //TypeName = um.Medicine.MedicineType.MedicineTypeName
-                    TypeName = GetMedicineTypeName(um.Medicine.MedicineTypeId),
+                    TypeName = um.Medicine.MedicineType.MedicineTypeName,
                     ImageURL = um.Medicine.ImageURL
                 }).ToListAsync();
-
+            
             return model;
         }
 
@@ -64,28 +63,12 @@ namespace PharmacyProject.Servises
 
             if(userMedicine != null)
             {
-                userMedicine.Medicine.IsDeleted = true;
+                //userMedicine.Medicine.IsDeleted = true;
+                _context.Remove(userMedicine);
                 await _context.SaveChangesAsync();
             }
         }
 
-        private string GetMedicineTypeName(int id)
-        {
-            switch (id)
-            {
-                case 1:
-                    return "Pill";
-                case 2:
-                    return "Syringe";
-                case 3:
-                    return "Syrup";
-                case 4:
-                    return "Powder";
-                case 5:
-                    return "Liquid";
-                default:
-                    return "Error";
-            }
-        }
+        
     }
 }

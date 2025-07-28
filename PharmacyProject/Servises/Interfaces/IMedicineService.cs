@@ -9,7 +9,7 @@ namespace PharmacyProject.Servises.Interfaces
 
         public Task<MedicineViewModel> GetAddModelAsynk();
 
-        public Task AddMedicineAsync(MedicineViewModel viewModel);
+        public Task AddMedicineAsync(MedicineViewModel viewModel, string userId);
 
         public Task<MedicineDetailsViewModel> GetDetails(int id);
 
