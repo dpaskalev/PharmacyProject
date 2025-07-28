@@ -53,8 +53,8 @@ namespace PharmacyProject.Servises
                 ImageURL = viewModel.ImageURL
             };
 
-            _context.Medicines.Add(medicine);
-            _context.SaveChanges();
+            await _context.Medicines.AddAsync(medicine);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<MedicineDetailsViewModel> GetDetails(int id)
@@ -96,6 +96,31 @@ namespace PharmacyProject.Servises
             };
 
             return viewModel;
+        }
+
+        public async Task AssignMedicineAsync(AddMedicineToPharmacyViewModel model)
+        {
+            var AleadyAssignedPharmacies = await _context.PharmaciesMedicines
+                .Where(pm => pm.MedicineId == model.MedicineId)
+                .ToListAsync();
+
+            _context.RemoveRange(AleadyAssignedPharmacies);
+
+            foreach(var pharmacy in model.Pharmacies)
+            {
+                if (pharmacy.IsSelected)
+                {
+                    var pharmacyMedicine = new PharmacyMedicine
+                    {
+                        PharmacyId = pharmacy.Id,
+                        MedicineId = model.MedicineId
+                    };
+
+                    await _context.PharmaciesMedicines.AddAsync(pharmacyMedicine);
+                }
+            }
+
+            await _context.SaveChangesAsync();
         }
 
         private string GetMedicineTypeName(int id)

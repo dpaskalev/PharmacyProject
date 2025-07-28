@@ -58,9 +58,14 @@ namespace PharmacyProject.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Assign(int medicineId)
+        public async Task<IActionResult> Assign(int medcineId)
         {
-            var model = await _medicineService.GetAddMedcineToPharmacyViewModelAsync(4);
+            var model = await _medicineService.GetAddMedcineToPharmacyViewModelAsync(medcineId);
+
+            if (model == null)
+            {
+                return RedirectToAction("Index");
+            }
 
             return View(model);
         }
@@ -68,7 +73,15 @@ namespace PharmacyProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Assign(AddMedicineToPharmacyViewModel model)
         {
-            throw new NotImplementedException();
+            if (ModelState.IsValid)
+            {
+                await _medicineService.AssignMedicineAsync(model);
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return View(model);
+            }
         }
     }
 }
