@@ -88,5 +88,26 @@ namespace PharmacyProject.Controllers
                 return View(model);
             }
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var model = await _medicineService.GetMedicineDeleteViewModel(id);
+
+            if(model == null)
+            {
+                return RedirectToAction("Index");
+            }
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(MedicineDeleteViewModel model)
+        {
+            await _medicineService.Delete(model.Id);
+
+            return RedirectToAction("Index");
+        }
     }
 }

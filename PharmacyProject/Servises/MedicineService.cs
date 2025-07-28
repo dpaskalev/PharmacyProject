@@ -146,6 +146,33 @@ namespace PharmacyProject.Servises
             await _context.SaveChangesAsync();
         }
 
+        public async Task<MedicineDeleteViewModel> GetMedicineDeleteViewModel(int id)
+        {
+            var model = await _context.Medicines
+                .Where(m => m.Id == id)
+                .Select(m => new MedicineDeleteViewModel
+                {
+                    Id = m.Id,
+                    Name = m.MedicineName,
+                    PublisherId = m.UserId,
+                    PublisherName = m.User.UserName
+                }).FirstOrDefaultAsync();
+
+            return model;
+        }
+
+        public async Task Delete(int id)
+        {
+            var medicine = await _context.Medicines
+                .FirstOrDefaultAsync(m => m.Id == id);
+
+            if(medicine != null)
+            {
+                medicine.IsDeleted = true;
+                await _context.SaveChangesAsync();
+            }
+        }
+
         private string GetMedicineTypeName(int id)
         {
             switch (id)

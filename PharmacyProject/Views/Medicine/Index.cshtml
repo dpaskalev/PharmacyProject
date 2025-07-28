@@ -29,6 +29,7 @@
                         </form>
                         <a asp-action="Details" asp-route-id="@medicine.Id" class="btn btn-info">Details</a>
                         <a asp-action="Assign" asp-route-medcineId="@medicine.Id" class="btn btn-primary">Assign</a>
+                        <a asp-action="Delete" asp-route-id="@medicine.Id" class="btn btn-info">Delete</a>
                     }
                     else if (User?.Identity?.IsAuthenticated == true && !medicine.IsPublisher && !medicine.HasBought)
                     {

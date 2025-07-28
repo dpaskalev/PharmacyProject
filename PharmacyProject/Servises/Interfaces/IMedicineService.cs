@@ -16,5 +16,9 @@ namespace PharmacyProject.Servises.Interfaces
         public Task AssignMedicineAsync(AddMedicineToPharmacyViewModel model);
 
         public Task<AddMedicineToPharmacyViewModel> GetAddMedcineToPharmacyViewModelAsync(int id);
+
+        public Task Delete(int id);
+
+        public Task<MedicineDeleteViewModel> GetMedicineDeleteViewModel(int id);
     }
 }
