@@ -9,7 +9,7 @@ using System;
 
 namespace PharmacyProject.Controllers
 {
-    public class PharmacyController : Controller
+    public class PharmacyController : BaseController
     {
         private readonly IPharmacyService _pharmacyService;
 

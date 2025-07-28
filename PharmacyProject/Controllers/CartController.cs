@@ -15,8 +15,7 @@ namespace PharmacyProject.Controllers
     {
         private readonly ICartService _cartService;
 
-        public CartController(UserManager<IdentityUser> userManager, ICartService cartService)
-            :base(userManager)
+        public CartController(ICartService cartService)
         {
             _cartService = cartService;
         }

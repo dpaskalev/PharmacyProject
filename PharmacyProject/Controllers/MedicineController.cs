@@ -15,8 +15,7 @@ namespace PharmacyProject.Controllers
     {
         private readonly IMedicineService _medicineService;
 
-        public MedicineController(UserManager<IdentityUser> userManager, IMedicineService medicineService)
-            :base(userManager)
+        public MedicineController(IMedicineService medicineService)
         {
             _medicineService = medicineService;
         }
