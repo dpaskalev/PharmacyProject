@@ -63,7 +63,6 @@ namespace PharmacyProject.Servises
 
             if(userMedicine != null)
             {
-                //userMedicine.Medicine.IsDeleted = true;
                 _context.Remove(userMedicine);
                 await _context.SaveChangesAsync();
             }

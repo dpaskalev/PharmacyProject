@@ -25,6 +25,12 @@ namespace PharmacyProject.Controllers
         public async Task<IActionResult> Index()
         {
             var model = await _medicineService.GetIndex(GetUserId());
+
+            if (model == null)
+            {
+                return View("CustomErrorView");
+            }
+
             return View(model);
         }
 
@@ -32,6 +38,12 @@ namespace PharmacyProject.Controllers
         public async Task<IActionResult> Create()
         {
             var model = await _medicineService.GetAddModelAsynk();
+
+            if (model == null)
+            {
+                return View("CustomErrorView");
+            }
+
             return View(model);
         }
 
@@ -54,9 +66,9 @@ namespace PharmacyProject.Controllers
         {
             var medicine = await _medicineService.GetDetails(id);
 
-            if(medicine == null)
+            if (medicine == null)
             {
-                return RedirectToAction("Index");
+                return View("CustomErrorView");
             }
 
             return View(medicine);
@@ -69,7 +81,7 @@ namespace PharmacyProject.Controllers
 
             if (model == null)
             {
-                return RedirectToAction("Index");
+                return View("CustomErrorView");
             }
 
             return View(model);
@@ -94,9 +106,9 @@ namespace PharmacyProject.Controllers
         {
             var model = await _medicineService.GetMedicineDeleteViewModel(id);
 
-            if(model == null)
+            if (model == null)
             {
-                return RedirectToAction("Index");
+                return View("CustomErrorView");
             }
 
             return View(model);
@@ -115,6 +127,11 @@ namespace PharmacyProject.Controllers
         {
             var model = await _medicineService.GetSearchViewModel();
 
+            if (model == null)
+            {
+                return View("CustomErrorView");
+            }
+
             return View(model);
         }
 
@@ -123,7 +140,18 @@ namespace PharmacyProject.Controllers
         {
             var result = await _medicineService.GetSearchResultAsync(model, GetUserId());
 
+            if(result == null)
+            {
+                return View("CustomErrorView");
+            }
+            else if (result.Any() == false)
+            {
+                return View("CustomNotFoundView");
+            }
+
             return View("Index", result);
         }
+
+
     }
 }

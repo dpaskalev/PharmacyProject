@@ -23,6 +23,11 @@ namespace PharmacyProject.Controllers
         {
             var modelsCollection = await _pharmacyService.GetPharmaciesAsynk(GetUserId());
 
+            if (modelsCollection == null)
+            {
+                return View("CustomErrorView");
+            }
+
             return View(modelsCollection);
         }
 
@@ -30,6 +35,11 @@ namespace PharmacyProject.Controllers
         public IActionResult Create()
         {
             var model = _pharmacyService.GetPharmacyViewModel();
+
+            if (model == null)
+            {
+                return View("CustomErrorView");
+            }
 
             return View(model);
         }
@@ -50,13 +60,11 @@ namespace PharmacyProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            int i = 0;
-
             var pharmacy = await _pharmacyService.GetDetailsAsync(id, GetUserId());
 
-            if(pharmacy == null)
+            if (pharmacy == null)
             {
-               return RedirectToAction("Index");
+                return View("CustomErrorView");
             }
 
             return View(pharmacy);
@@ -77,7 +85,7 @@ namespace PharmacyProject.Controllers
 
             if (model == null)
             {
-                return RedirectToAction("Index");
+                return View("CustomErrorView");
             }
 
             return View(model);
