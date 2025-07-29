@@ -50,14 +50,24 @@ namespace PharmacyProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            var pharmacy = await _pharmacyService.GetDetailsAsync(id);
+            int i = 0;
+
+            var pharmacy = await _pharmacyService.GetDetailsAsync(id, GetUserId());
 
             if(pharmacy == null)
             {
-                RedirectToAction("Index");
+               return RedirectToAction("Index");
             }
 
             return View(pharmacy);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> RemoveFromDetails(PharmacyMedicineViewModel model)
+        {
+            await _pharmacyService.RemoveFromDetailsAsync(model.Id, model.PharmacyId);
+
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
@@ -80,5 +90,8 @@ namespace PharmacyProject.Controllers
 
             return RedirectToAction("Index");
         }
+
+
+
     }
 }

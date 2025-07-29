@@ -4,6 +4,7 @@ namespace PharmacyProject.VewModels
 {
     public class PharmacyDetailsViewModel
     {
+        [Required]
         public int Id { get; set; }
 
         [Required]

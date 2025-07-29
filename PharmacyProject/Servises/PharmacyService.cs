@@ -56,7 +56,7 @@ namespace PharmacyProject.Servises
             await _context.SaveChangesAsync();
         }
 
-        public async Task<PharmacyDetailsViewModel> GetDetailsAsync(int id)
+        public async Task<PharmacyDetailsViewModel> GetDetailsAsync(int id, string UserId)
         {
             var pharmacy = await _context.Pharmacies
                 .Include(p => p.PharmaciesMedicines)
@@ -77,7 +77,9 @@ namespace PharmacyProject.Servises
                 Medicines = pharmacy.PharmaciesMedicines.Select(pm => new PharmacyMedicineViewModel
                 {
                     Id = pm.Medicine.Id,
-                    Name = pm.Medicine.MedicineName
+                    PharmacyId = id,
+                    Name = pm.Medicine.MedicineName,
+                    IsPublisher = pharmacy.UserId == UserId
                 }).ToList()
             };
 
@@ -107,6 +109,22 @@ namespace PharmacyProject.Servises
             if (medicine != null)
             {
                 medicine.IsDeleted = true;
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task RemoveFromDetailsAsync(int medicineId, int pharmacyId)
+        {
+            var model = await _context.Pharmacies
+                .Include(p => p.PharmaciesMedicines)
+                .FirstOrDefaultAsync(p => p.Id == pharmacyId);
+                
+            if(model != null)
+            {
+                var medicineToRemove = model.PharmaciesMedicines
+                    .FirstOrDefault(m => m.MedicineId == medicineId);
+
+                _context.Remove(medicineToRemove);
                 await _context.SaveChangesAsync();
             }
         }

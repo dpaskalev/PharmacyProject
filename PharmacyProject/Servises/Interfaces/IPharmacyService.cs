@@ -12,10 +12,12 @@ namespace PharmacyProject.Servises.Interfaces
 
         public Task AddPharamcyToDatabaseAsync(PharmacyViewModel model, string userId);
 
-        public Task<PharmacyDetailsViewModel> GetDetailsAsync(int id);
+        public Task<PharmacyDetailsViewModel> GetDetailsAsync(int id, string UserId);
 
         public Task<PharmacyDeleteViewModel> GetPharmacyDeleteViewModel(int id);
 
         public Task Delete(int id);
+
+        public Task RemoveFromDetailsAsync(int medicineId, int pharmacyId);
     }
 }
