@@ -173,6 +173,35 @@ namespace PharmacyProject.Servises
             }
         }
 
+        public async Task<MedicineSearchViewModel> GetSearchViewModel()
+        {
+            var model = new MedicineSearchViewModel();
+
+            return model;
+        }
+
+        public async Task<IEnumerable<MedicineIndexViewModel>> GetSearchResultAsync(MedicineSearchViewModel model, string userId)
+        {
+            var modelCollection = await _context.Medicines
+                .Where(m => m.IsDeleted == false)
+                .Where(m => m.MedicineName == model.Name)
+                .Select(m => new MedicineIndexViewModel
+                {
+                    Id = m.Id,
+                    Name = m.MedicineName,
+                    ExpeationDate = m.ExperationDate,
+                    Price = m.Price,
+                    Description = m.Description,
+                    TypeName = m.MedicineType.MedicineTypeName,
+                    ImageURL = m.ImageURL,
+                    IsPublisher = m.UserId == userId,
+                    HasBought = userId != null && _context.UsersMedicines.Any(um => um.MedicineId == m.Id && um.UserId == userId)
+                })
+                .ToListAsync();
+
+            return modelCollection;
+        }
+
         private string GetMedicineTypeName(int id)
         {
             switch (id)

@@ -20,5 +20,9 @@ namespace PharmacyProject.Servises.Interfaces
         public Task Delete(int id);
 
         public Task<MedicineDeleteViewModel> GetMedicineDeleteViewModel(int id);
+
+        public Task<MedicineSearchViewModel> GetSearchViewModel();
+
+        public Task<IEnumerable<MedicineIndexViewModel>> GetSearchResultAsync(MedicineSearchViewModel model, string userId);
     }
 }

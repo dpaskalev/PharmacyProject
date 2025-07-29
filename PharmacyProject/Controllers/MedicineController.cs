@@ -109,5 +109,21 @@ namespace PharmacyProject.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Search()
+        {
+            var model = await _medicineService.GetSearchViewModel();
+
+            return View(model);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> SearchResult(MedicineSearchViewModel model)
+        {
+            var result = await _medicineService.GetSearchResultAsync(model, GetUserId());
+
+            return View("Index", result);
+        }
     }
 }

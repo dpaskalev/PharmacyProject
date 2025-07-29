@@ -1,0 +1,20 @@
+﻿@model PharmacyProject.VewModels.MedicineSearchViewModel
+
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title text-center">Search by medicine name</h3>
+            </div>
+            <div class="card-footer">
+                <form asp-action="SearchResult" method="get">
+                    <label for="Name">Medicine name</label>
+                    <input asp-for="Name" class="text-danger" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                    <button type="submit" class="btn btn-danger">Confirm</button>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
