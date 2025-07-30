@@ -2,34 +2,44 @@
 
 <h2>Your cart</h2>
 
-<table class="table table-striped">
-    <thead>
-        <tr>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Experation date</th>
-            <th>Description</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var medicine in Model)
-        {
+@if (Model.Any())
+{
+    <table class="table table-striped">
+        <thead>
             <tr>
-                <td>
-                    <img src="@medicine.ImageURL" alt="@medicine.Name" width="100" />
-                </td>
-                <td>@medicine.Name</td>
-                <td>@medicine.TypeName</td>
-                <td>@medicine.ExperationDate</td>
-                <td>@medicine.Description</td>
-                <td>
-                    <form asp-controller="Cart" asp-action="Remove" method="post" class="d-inline">
-                        <input type="hidden"  name="medicineId" value="@medicine.MedicineId"/>
-                        <button type="submit" class="btn btn-danger">Remove</button>
-                    </form>
-                </td>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Experation date</th>
+                <th>Description</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var medicine in Model)
+            {
+                <tr>
+                    <td>
+                        <img src="@medicine.ImageURL" alt="@medicine.Name" width="100" />
+                    </td>
+                    <td>@medicine.Name</td>
+                    <td>@medicine.TypeName</td>
+                    <td>@medicine.ExperationDate</td>
+                    <td>@medicine.Description</td>
+                    <td>
+                        <form asp-controller="Cart" asp-action="Remove" method="post" class="d-inline">
+                            <input type="hidden" name="medicineId" value="@medicine.MedicineId" />
+                            <button type="submit" class="btn btn-danger">Remove</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <div class="card-body">
+        <h1 class="card-title text-center">The cart is empty!</h1>
+    </div>
+}
+

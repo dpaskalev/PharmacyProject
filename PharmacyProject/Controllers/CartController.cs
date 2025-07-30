@@ -25,9 +25,7 @@ namespace PharmacyProject.Controllers
         {
             var model = await _cartService.GetIndexAsync(GetUserId());
 
-            model = null;
-
-            if(model == null)
+            if (model == null)
             {
                 return View("CustomErrorView");
             }
@@ -50,5 +48,7 @@ namespace PharmacyProject.Controllers
 
             return RedirectToAction("Index");
         }
+
+        
     }
 }

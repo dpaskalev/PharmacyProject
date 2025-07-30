@@ -19,9 +19,13 @@
                 <td>@medicine.ExpeationDate.ToString("yyyy-MM-dd")</td>
                 <td>@medicine.Price $</td>
                 <td>
-
-
-                    @if (User?.Identity?.Name == "admin@gmail.com" || User?.Identity?.IsAuthenticated == true && medicine.IsPublisher)
+                    @if (User?.Identity?.Name == "admin@gmail.com" && medicine.IsPublisher || User?.Identity?.IsAuthenticated == true && medicine.IsPublisher)
+                    {
+                        <a asp-action="Details" asp-route-id="@medicine.Id" class="btn btn-info">Details</a>
+                        <a asp-action="Assign" asp-route-medcineId="@medicine.Id" class="btn btn-primary">Assign</a>
+                        <a asp-action="Delete" asp-route-id="@medicine.Id" class="btn btn-info">Delete</a>
+                    }
+                    else if (User?.Identity?.Name == "admin@gmail.com" && !medicine.IsPublisher)
                     {
                         <form asp-controller="Cart" asp-action="Add" method="post" class="d-inline">
                             <input type="hidden" name="id" value="@medicine.Id" />
