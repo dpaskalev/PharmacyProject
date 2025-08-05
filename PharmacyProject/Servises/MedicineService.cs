@@ -78,7 +78,7 @@ namespace PharmacyProject.Servises
         {
             var medicine = await _context.Medicines.FindAsync(id);
 
-            if(medicine == null)
+            if(medicine == null || medicine.IsDeleted == true)
             {
                 return null;
             }
@@ -99,12 +99,12 @@ namespace PharmacyProject.Servises
         {
             var medicine = await _context.Medicines.FindAsync(id);
 
-            if(medicine == null)
+            if(medicine == null || medicine.IsDeleted == true)
             {
                 return null;
             }
 
-            var pharmacies = await _context.Pharmacies.ToListAsync();
+            var pharmacies = await _context.Pharmacies.Where(p => p.IsDeleted == false).ToListAsync();
 
             AddMedicineToPharmacyViewModel viewModel = new AddMedicineToPharmacyViewModel
             {
@@ -150,6 +150,7 @@ namespace PharmacyProject.Servises
         {
             var model = await _context.Medicines
                 .Where(m => m.Id == id)
+                .Where(m => m.IsDeleted == false)
                 .Select(m => new MedicineDeleteViewModel
                 {
                     Id = m.Id,

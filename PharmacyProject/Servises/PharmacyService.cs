@@ -74,7 +74,9 @@ namespace PharmacyProject.Servises
                 Id = pharmacy.Id,
                 Name = pharmacy.Name,
                 Location = pharmacy.Loctaion,
-                Medicines = pharmacy.PharmaciesMedicines.Select(pm => new PharmacyMedicineViewModel
+                Medicines = pharmacy.PharmaciesMedicines
+                .Where(m => m.Medicine.IsDeleted == false)
+                .Select(pm => new PharmacyMedicineViewModel
                 {
                     Id = pm.Medicine.Id,
                     PharmacyId = id,
@@ -90,6 +92,7 @@ namespace PharmacyProject.Servises
         {
             var model = await _context.Pharmacies
                 .Where(m => m.Id == id)
+                .Where(m => m.IsDeleted == false)
                 .Select(m => new PharmacyDeleteViewModel
                 {
                     Id = m.Id,
@@ -117,6 +120,7 @@ namespace PharmacyProject.Servises
         {
             var model = await _context.Pharmacies
                 .Include(p => p.PharmaciesMedicines)
+                .Where(p => p.IsDeleted == false)
                 .FirstOrDefaultAsync(p => p.Id == pharmacyId);
                 
             if(model != null)
