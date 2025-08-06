@@ -50,6 +50,9 @@ namespace PharmacyProject
             }
 
             app.UseHttpsRedirection();
+
+            app.UseStatusCodePagesWithReExecute("/StatusCodeError/{0}");
+
             app.UseStaticFiles();
 
             app.UseRouting();
