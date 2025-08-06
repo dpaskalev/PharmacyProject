@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using PharmacyProject.Common;
 using PharmacyProject.Data;
 using PharmacyProject.Data.DataModels;
 using PharmacyProject.Servises.Interfaces;
@@ -95,11 +96,11 @@ namespace PharmacyProject.Servises
             };
         }
 
-        public async Task<AddMedicineToPharmacyViewModel> GetAddMedcineToPharmacyViewModelAsync(int id)
+        public async Task<AddMedicineToPharmacyViewModel> GetAddMedcineToPharmacyViewModelAsync(int id, string userId)
         {
             var medicine = await _context.Medicines.FindAsync(id);
 
-            if(medicine == null || medicine.IsDeleted == true)
+            if(medicine == null || medicine.IsDeleted == true || userId != medicine.UserId && userId != ValidationConstants.AdminId)
             {
                 return null;
             }
@@ -146,7 +147,7 @@ namespace PharmacyProject.Servises
             await _context.SaveChangesAsync();
         }
 
-        public async Task<MedicineDeleteViewModel> GetMedicineDeleteViewModel(int id)
+        public async Task<MedicineDeleteViewModel> GetMedicineDeleteViewModel(int id, string userId)
         {
             var model = await _context.Medicines
                 .Where(m => m.Id == id)
@@ -159,15 +160,20 @@ namespace PharmacyProject.Servises
                     PublisherName = m.User.UserName
                 }).FirstOrDefaultAsync();
 
+            if(model.PublisherId != userId && userId != ValidationConstants.AdminId)
+            {
+                return null;
+            }
+
             return model;
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(int id, string publisherId, string userId)
         {
             var medicine = await _context.Medicines
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-            if(medicine != null)
+            if(medicine != null && publisherId == userId || medicine != null && userId == ValidationConstants.AdminId)
             {
                 medicine.IsDeleted = true;
                 await _context.SaveChangesAsync();

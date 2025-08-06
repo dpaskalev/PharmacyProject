@@ -14,10 +14,10 @@ namespace PharmacyProject.Servises.Interfaces
 
         public Task<PharmacyDetailsViewModel> GetDetailsAsync(int id, string UserId);
 
-        public Task<PharmacyDeleteViewModel> GetPharmacyDeleteViewModel(int id);
+        public Task<PharmacyDeleteViewModel> GetPharmacyDeleteViewModel(int id, string userId);
 
-        public Task Delete(int id);
+        public Task Delete(int id, string userId);
 
-        public Task RemoveFromDetailsAsync(int medicineId, int pharmacyId);
+        public Task RemoveFromDetailsAsync(int medicineId, int pharmacyId, string userId);
     }
 }

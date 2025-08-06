@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using PharmacyProject.Common;
 using PharmacyProject.Data;
 using PharmacyProject.Data.DataModels;
 using PharmacyProject.Servises.Interfaces;
@@ -88,7 +89,7 @@ namespace PharmacyProject.Servises
             return pharmacyDetailsViewModel;
         }
 
-        public async Task<PharmacyDeleteViewModel> GetPharmacyDeleteViewModel(int id)
+        public async Task<PharmacyDeleteViewModel> GetPharmacyDeleteViewModel(int id, string userId)
         {
             var model = await _context.Pharmacies
                 .Where(m => m.Id == id)
@@ -101,29 +102,34 @@ namespace PharmacyProject.Servises
                     PublisherName = m.User.UserName
                 }).FirstOrDefaultAsync();
 
+            if(model.PublisherId != userId && userId != ValidationConstants.AdminId)
+            {
+                return null;
+            }
+
             return model;
         }
 
-        public async Task Delete(int id)
+        public async Task Delete(int id, string userId)
         {
             var medicine = await _context.Pharmacies
                 .FirstOrDefaultAsync(m => m.Id == id);
 
-            if (medicine != null)
+            if (medicine != null && medicine.UserId == userId || medicine != null && userId == ValidationConstants.AdminId)
             {
                 medicine.IsDeleted = true;
                 await _context.SaveChangesAsync();
             }
         }
 
-        public async Task RemoveFromDetailsAsync(int medicineId, int pharmacyId)
+        public async Task RemoveFromDetailsAsync(int medicineId, int pharmacyId, string userId)
         {
             var model = await _context.Pharmacies
                 .Include(p => p.PharmaciesMedicines)
                 .Where(p => p.IsDeleted == false)
                 .FirstOrDefaultAsync(p => p.Id == pharmacyId);
                 
-            if(model != null)
+            if(model != null && model.UserId == userId || model != null && userId == ValidationConstants.AdminId)
             {
                 var medicineToRemove = model.PharmaciesMedicines
                     .FirstOrDefault(m => m.MedicineId == medicineId);

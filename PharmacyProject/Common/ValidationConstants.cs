@@ -2,6 +2,8 @@
 {
     public static class ValidationConstants
     {
+        public const string AdminId = "df1c3a0f-1234-4cde-bb55-d5f15a6aabcd";
+
         public const byte MedicineNameMinLenght = 3;
         public const byte MedicineNameMaxLenght = 250;
         public const double MedicinePriceMinValue = 0;

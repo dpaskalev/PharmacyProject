@@ -62,6 +62,7 @@ namespace PharmacyProject.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Details(int id)
         {
             var medicine = await _medicineService.GetDetails(id);
@@ -77,7 +78,7 @@ namespace PharmacyProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Assign(int medcineId)
         {
-            var model = await _medicineService.GetAddMedcineToPharmacyViewModelAsync(medcineId);
+            var model = await _medicineService.GetAddMedcineToPharmacyViewModelAsync(medcineId, GetUserId());
 
             if (model == null)
             {
@@ -104,7 +105,7 @@ namespace PharmacyProject.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            var model = await _medicineService.GetMedicineDeleteViewModel(id);
+            var model = await _medicineService.GetMedicineDeleteViewModel(id, GetUserId());
 
             if (model == null)
             {
@@ -117,12 +118,13 @@ namespace PharmacyProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(MedicineDeleteViewModel model)
         {
-            await _medicineService.Delete(model.Id);
+            await _medicineService.Delete(model.Id, model.PublisherId, GetUserId());
 
             return RedirectToAction("Index");
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Search()
         {
             var model = await _medicineService.GetSearchViewModel();
@@ -136,6 +138,7 @@ namespace PharmacyProject.Controllers
         }
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> SearchResult(MedicineSearchViewModel model)
         {
             var result = await _medicineService.GetSearchResultAsync(model, GetUserId());
